@@ -1,4 +1,4 @@
-#!/usr/bin/env
+#!/usr/bin/env python3
 
 from urllib.request import urlopen
 from urllib.error import HTTPError
