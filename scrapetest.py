@@ -17,6 +17,6 @@ else:
 bs = BeautifulSoup(html.read(), 'html.parser')
 #print(bs.table)
 
-nameList = bs.findAll('table', {'id':'btable'})
+nameList = bs.findAll('table', {'id':'btable'}, )
 for name in nameList:
     print(name.get_text())
