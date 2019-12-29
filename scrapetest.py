@@ -15,8 +15,13 @@ else:
     print('It worked!')
     
 bs = BeautifulSoup(html.read(), 'html.parser')
-#print(bs.table)
 
-nameList = bs.findAll('table', {'id':'btable'}, )
-for name in nameList:
-    print(name.get_text())
+epl_dict = dict()
+
+teamList = bs.findAll('td', {'width':'110'})
+pointList = bs.findAll('td', {'bgcolor':'#dedede'})
+for team in teamList:
+    t = team.get_text().strip()
+    epl_dict[t] = ''
+
+print(epl_dict)
