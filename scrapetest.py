@@ -8,25 +8,33 @@ response = requests.get(url) #RESPONSE
 
 if response.status_code in [200]:
     print('It worked!')
-else:
-   print('Failed.')
     
 bs = BeautifulSoup(response.text, 'html.parser') #CONTENT
 
 teams  = []
 pts = []
+rank = []
+rank_2 = []
 
 teamList = bs.findAll('td', {'width':'110'})
-pointList = bs.findAll('td', {'bgcolor':'#dedede'})
-
+rankList = bs.findAll('td', {'height':'22', 'align':'center'})
+    
+for ranks in rankList:
+    r = ranks.get_text().strip()
+    rank.append(r)
+    
+for r in rank:
+    if r != '':
+        try:
+            if int(r):
+                rank_2.append(r)
+        except:
+            pass
+        
 for team in teamList:
    t = team.get_text().strip()
    teams.append(t)
-    
-for points in pointList:
-    p = points.get_text().strip()
-    pts.append(p)
 
-epl_dict = dict(zip(teams, pts))
+epl_dict = dict(zip(rank_2, teams))
 
 print(epl_dict)
