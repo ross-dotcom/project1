@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from bs4 import BeautifulSoup
+import pandas as pd
 import requests
 
 url = 'https://www.soccerstats.com/latest.asp?league=england' #URL
@@ -12,29 +13,31 @@ if response.status_code in [200]:
 bs = BeautifulSoup(response.text, 'html.parser') #CONTENT
 
 teams  = []
-pts = []
-rank = []
-rank_2 = []
+pos = []
+team_pos = []
 
-teamList = bs.findAll('td', {'width':'110'})
-rankList = bs.findAll('td', {'height':'22', 'align':'center'})
+pos_list = bs.findAll('td', {'height':'22', 'align':'center'})
+team_list = bs.findAll('td', {'width':'110'})
     
-for ranks in rankList:
-    r = ranks.get_text().strip()
-    rank.append(r)
+for idx in pos_list:
+    p = idx.get_text().strip()
+    pos.append(p)
     
-for r in rank:
-    if r != '':
-        try:
-            if int(r):
-                rank_2.append(r)
-        except:
-            pass
+for idx in pos:
+   if idx != '':
+      try:
+         if int(idx):
+            team_pos.append(idx)
+      except:
+         pass
         
-for team in teamList:
-   t = team.get_text().strip()
+for idx in team_list:
+   t = idx.get_text().strip()
    teams.append(t)
+   
+epl_table_pos = dict(zip(team_pos, teams)) #Date put in a dictionary.
+print(epl_table_pos)
 
-epl_dict = dict(zip(rank_2, teams))
-
-print(epl_dict)
+#Storing data in a CSV file.
+df = pd.DataFrame({'Position':team_pos, 'Team':teams})
+df.to_csv('table.csv', index=False, encoding='utf-8')
