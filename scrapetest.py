@@ -35,7 +35,7 @@ for idx in team_list:
    t = idx.get_text().strip()
    teams.append(t)
    
-epl_table_pos = dict(zip(team_pos, teams)) #Date put in a dictionary.
+epl_table_pos = dict(zip(team_pos, teams)) #Data put in a dictionary.
 print(epl_table_pos)
 
 #Storing data in a CSV file.
